@@ -1,0 +1,33 @@
+## YAML Template.
+---
+server:
+    port: 9006
+    
+spring:
+    application:
+        name: API-GATEWAY
+    cloud:
+        gateway:
+                mvc:
+                    routes:
+                        - id: PRODUK-SERVICE
+                          uri: lb://PRODUK-SERVICE
+                          predicates: 
+                            - Path=api/produk
+                        - id: PELANGGAN-SERVICE
+                          uri: lb://PELANGGANSERVICE
+                          predicates: 
+                            - Path=api/pelanggan
+                        - id: ORDER-SERVICE
+                          uri: lb://ORDERSERVICE
+                          predicates: 
+                            - Path=api/orders
+                    
+eureka:
+    client:
+        register-with-eureka: true
+        fetch-registry: true
+        service-url:
+            defaultZone: http://localhost:8761/eureka/
+    instance: 
+        hostname: localhost

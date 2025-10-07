@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: RabbitmqPustaka
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    template:
+      exchange: peminjaman.exchange
+    listener:
+      simple:
+        default-requeue-rejected: false
+
+app:
+  rabbitmq-peminjaman:
+    queue: peminjaman.queue
+    exchange: peminjaman.exchange
+    routing-key: peminjaman.routing.key
+  mail:
+    host: "smtp.gmail.com"
+    port: 587
+    username: "kasihananda04@gmail.com"
+    from: "kasihananda04@gmail.com"
+    password: "ykoq hkep lfka viol"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+logging:
+  level:
+    '[com.kasih.RabbitmqPustaka]': DEBUG
