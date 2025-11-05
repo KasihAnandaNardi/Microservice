@@ -1,0 +1,16 @@
+FROM openjdk:17.0.1-jdk-oracle
+
+# Set the working directory
+WORKDIR /app
+
+# Create the data directory where the H2 database file will be stored
+RUN mkdir -p /app/data
+
+# Copy the executable jar file
+COPY target/*.jar app.jar
+
+# Expose the port the application runs on
+EXPOSE 8081
+
+# Command to run the application
+CMD ["java", "-jar", "app.jar"]
