@@ -1,16 +1,32 @@
-FROM openjdk:17.0.1-jdk-oracle
+# ========================
+# Stage 1: Build JAR
+# ========================
+FROM maven:3.9.6-eclipse-temurin-17-alpine AS builder
 
-# direktori
 WORKDIR /app
 
-# Create the data directory where the H2 database file will be stored
-RUN mkdir -p /app/data
+# Copy dependency files dulu (untuk caching layer)
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
 
-# copy jar file
-COPY target/*.jar app.jar
+# Baru copy source code
+COPY src ./src
 
-# expose
+# Build tanpa run tests (lebih cepat)
+RUN mvn clean package -DskipTests
+
+# ========================
+# Stage 2: Runtime Image
+# ========================
+FROM eclipse-temurin:17-jre-alpine
+
+WORKDIR /app
+
+# Copy JAR dari stage builder
+COPY --from=builder /app/target/*.jar app.jar
+
+# Expose port (sesuaikan dengan application.properties)
 EXPOSE 9001
 
-# run
-CMD ["java", "-jar", "app.jar"]
+# Jalankan aplikasi
+ENTRYPOINT ["java", "-jar", "app.jar"]
