@@ -1,155 +1,101 @@
-version: '3.8'
-
 services:
-  # Eureka Server
+
   eureka-server:
-    image: eureka-server:latest  # Ganti dengan image Eureka Server Anda
+    image: eurekaserver:0.1
     container_name: eureka-server
     ports:
       - "8761:8761"
     networks:
       - library-network
-    environment:
-      - SPRING_APPLICATION_NAME=eureka-server
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 5
 
-  # Anggota Service
   anggotaservice:
-    image: anggota-service:latest  # Ganti dengan image Anggota Service Anda
-    container_name: anggotaservice
+    image: anggotaservice:0.1
+    container_name: anggota-service
     ports:
       - "9001:9001"
     networks:
       - library-network
     environment:
-      - SPRING_APPLICATION_NAME=ANGGOTA-SERVICE
-      - SPRING_DATASOURCE_URL=jdbc:h2:file:/data/anggotadb;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
-      - SPRING_DATASOURCE_USERNAME=sa
-      - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_H2_CONSOLE_ENABLED=true
-      - SPRING_MAIL_HOST=smtp.gmail.com
-      - SPRING_MAIL_PORT=587
-      - SPRING_MAIL_USERNAME=m.aldioyaspindo@gmail.com
-      - SPRING_MAIL_PASSWORD=vecl jmds atnu xfup
+      - SPRING_APPLICATION_NAME=anggotaservice
+      - SERVER_PORT=9001
       - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
-      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
-      - SERVER_PORT=8082
-    volumes:
-      - anggota-data:/data
     depends_on:
       eureka-server:
         condition: service_healthy
-    restart: on-failure
 
-  # Buku Service
   bukuservice:
-    image: buku-service:latest # Ganti dengan image Buku Service Anda
-    container_name: bukuservice
+    image: bukuservice:0.1
+    container_name: buku-service
     ports:
       - "9002:9002"
     networks:
       - library-network
     environment:
-      - SPRING_APPLICATION_NAME=BUKU-SERVICE
-      - SPRING_DATASOURCE_URL=jdbc:h2:mem:testdb
-      - SPRING_DATASOURCE_USERNAME=sa
-      - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
-      - SPRING_H2_CONSOLE_ENABLED=true
+      - SPRING_APPLICATION_NAME=bukuservice
+      - SERVER_PORT=9002
       - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
-      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
-      - SERVER_PORT=8081
     depends_on:
       eureka-server:
         condition: service_healthy
-    restart: on-failure
 
-  # Peminjaman Service
-  PEMINJAMAN-SERVICE:
-    image: peminjaman-service:latest # Ganti dengan image Peminjaman Service Anda
-    container_name: PEMINJAMAN-SERVICE
+  peminjamanservice:
+    image: peminjamanservice:0.1
+    container_name: peminjaman-service
     ports:
       - "9003:9003"
     networks:
       - library-network
     environment:
-      - SPRING_APPLICATION_NAME=PEMINJAMAN-SERVICE
-      - SPRING_DATASOURCE_URL=jdbc:h2:file:/data/peminjamandb;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
-      - SPRING_DATASOURCE_USERNAME=sa
-      - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_H2_CONSOLE_ENABLED=true
+      - SPRING_APPLICATION_NAME=peminjamanservice
+      - SERVER_PORT=9003
       - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
-      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
-      - SERVER_PORT=8083
-    volumes:
-      - peminjaman-data:/data
     depends_on:
       eureka-server:
         condition: service_healthy
-    restart: on-failure
 
-  # Pengembalian Service
-  PENGEMBALIAN-SERVICE:
-    image: pengembalian-service:latest  # Ganti dengan image Pengembalian Service Anda
-    container_name: PENGEMBALIAN-SERVICE
+  pengembalianservice:
+    image: pengembalianservice:0.1
+    container_name: pengembalian-service
     ports:
       - "9004:9004"
     networks:
       - library-network
     environment:
-      - SPRING_APPLICATION_NAME=PENGEMBALIAN-SERVICE
-      - SPRING_DATASOURCE_URL=jdbc:h2:file:/data/pengembaliandb;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
-      - SPRING_DATASOURCE_USERNAME=sa
-      - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_H2_CONSOLE_ENABLED=true
+      - SPRING_APPLICATION_NAME=pengembalianservice
+      - SERVER_PORT=9004
       - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
-      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
-      - SERVER_PORT=8084
-    volumes:
-      - pengembalian-data:/data
     depends_on:
       eureka-server:
         condition: service_healthy
-    restart: on-failure
 
-  # API Gateway
   api-gateway:
-    image: api-gateway:latest  # Ganti dengan image API Gateway Anda
-    container_name: api-gateways
+    image: apigateway:0.1
+    container_name: api-gateway-perpustakaan
     ports:
-      - "9002:9002"
+      - "9006:9006"
     networks:
       - library-network
     environment:
-      - SPRING_APPLICATION_NAME=API-GATEWAY
+      - SPRING_APPLICATION_NAME=api-gateway
+      - SERVER_PORT=9006
       - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
-      - EUREKA_INSTANCE_HOSTNAME=api-gateway
-      - SERVER_PORT=9002
     depends_on:
       eureka-server:
         condition: service_healthy
-      anggota-service:
+      anggotaservice:
         condition: service_started
-      buku-service:
+      bukuservice:
         condition: service_started
-      peminjaman-service:
+      peminjamanservice:
         condition: service_started
-      pengembalian-service:
+      pengembalianservice:
         condition: service_started
-    restart: on-failure
 
 networks:
   library-network:
     driver: bridge
-
-volumes:
-  anggota-data:
-  peminjaman-data:
-  pengembalian-data:

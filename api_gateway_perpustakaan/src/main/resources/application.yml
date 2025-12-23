@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: API-GATEWAY
+    name: api-gateway
   cloud:
     gateway:
       mvc:
@@ -14,24 +14,24 @@ spring:
             uri: lb://anggotaservice
             predicates:
               - Path=api/anggota/
-          - id: pelangganservice
+          - id: bukuservice
             uri: lb://bukuservice
             predicates:
               - Path=api/buku
-          - id: PEMINJAMAN-SERVICE
+          - id: peminjamanservice
             uri: lb://PEMINJAMAN-SERVICE
             predicates:
               - Path=api/peminjaman
               - Method=POST,PUT,DELETE
-          - id: PENGEMBALIAN-SERVICE
+          - id: pengembalianservice
             uri: lb://PENGEMBALIAN-SERVICE
             predicates:
               - Path=api/pengembalian
-          - id: peminjamanqueryservice
-            uri: lb://peminjamanqueryservice
-            predicates:
-              - Path=/api/peminjaman/**
-              - Method=GET
+          # - id: peminjamanqueryservice
+          #   uri: lb://peminjamanqueryservice
+          #   predicates:
+          #     - Path=/api/peminjaman/**
+          #     - Method=GET
 
 eureka:
   client:
