@@ -2,7 +2,6 @@ services:
 
   eureka-server:
     image: eurekaserver:0.1
-    container_name: eureka-server
     ports:
       - "8761:8761"
     networks:
@@ -15,7 +14,6 @@ services:
 
   anggotaservice:
     image: anggotaservice:0.1
-    container_name: anggota-service
     ports:
       - "9001:9001"
     networks:
@@ -30,7 +28,6 @@ services:
 
   bukuservice:
     image: bukuservice:0.1
-    container_name: buku-service
     ports:
       - "9002:9002"
     networks:
@@ -45,7 +42,6 @@ services:
 
   peminjamanservice:
     image: peminjamanservice:0.1
-    container_name: peminjaman-service
     ports:
       - "9003:9003"
     networks:
@@ -60,7 +56,6 @@ services:
 
   pengembalianservice:
     image: pengembalianservice:0.1
-    container_name: pengembalian-service
     ports:
       - "9004:9004"
     networks:
@@ -75,7 +70,6 @@ services:
 
   api-gateway:
     image: apigateway:0.1
-    container_name: api-gateway-perpustakaan
     ports:
       - "9006:9006"
     networks:
