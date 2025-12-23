@@ -16,7 +16,7 @@ pipeline {
 
         stage('Stop Old Containers') {
             steps {
-                sh 'docker compose down'
+                sh 'docker compose down --remove-orphans'
             }
         }
 
