@@ -45,13 +45,13 @@ public class PeminjamanCommandService {
         try {
             RestTemplate restTemplate = new RestTemplate();
 
-            restTemplate.getForObject(
-                    baseUrl + "/api/anggota/" + peminjaman.getAnggotaId(),
-                    Void.class);
+            String anggotaUrl = baseUrl + "/api/anggota/" + peminjaman.getAnggotaId();
 
-            restTemplate.getForObject(
-                    baseUrl + "/api/buku/" + peminjaman.getBukuId(),
-                    Void.class);
+            restTemplate.getForEntity(anggotaUrl, Void.class);
+
+            String bukuUrl = baseUrl + "/api/buku/" + peminjaman.getBukuId();
+
+            restTemplate.getForEntity(bukuUrl, Void.class);
 
             PeminjamanCommand saved = peminjamanCommandRepository.save(peminjaman);
             saved.setEventType(PeminjamanCommand.EventType.CREATED);
@@ -66,6 +66,7 @@ public class PeminjamanCommandService {
                     "Anggota atau Buku tidak ditemukan");
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     "Gagal membuat peminjaman");

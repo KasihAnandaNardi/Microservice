@@ -19,6 +19,22 @@ public class BukuService {
         return BukuRepository.findById(id).orElse(null);
     }
 
+    public Buku updateBuku(Long id, Buku buku) {
+        Buku oldData = BukuRepository.findById(id).orElse(null);
+        if (oldData == null) {
+            return null;
+        }
+
+        oldData.setJudul(buku.getJudul());
+        oldData.setPenerbit(buku.getPenerbit());
+        oldData.setPengarang(buku.getPengarang());
+        oldData.setTahunTerbit(buku.getTahunTerbit());
+
+        Buku updated = BukuRepository.save(oldData);
+
+        return updated;
+    }
+
     public List<Buku> findAll() {
         return BukuRepository.findAll();
     }

@@ -47,9 +47,9 @@ app:
   mail:
     host: "smtp.gmail.com"
     port: 587
-    username: "kasihalpenperdana@gmail.com"
-    from: "kasihalpenperdana@gmail.com"
-    password: "kkzrdwwplpydfxno"
+    username: ${SMTP_USERNAME}
+    from: ${SMTP_FROM}
+    password: ${SMTP_PASSWORD}
     properties:
       mail:
         smtp:
