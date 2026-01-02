@@ -10,7 +10,15 @@ pipeline {
 
         stage('Build Images') {
             steps {
-                bat 'docker compose build'
+                withCredentials([
+                    string(credentialsId: 'SMTP_USERNAME', variable: 'SMTP_USERNAME'),
+                    string(credentialsId: 'SMTP_PASSWORD', variable: 'SMTP_PASSWORD'),
+                    string(credentialsId: 'SMTP_FROM', variable: 'SMTP_FROM')
+                ]) {
+                    bat '''
+                        docker compose build
+                    '''
+                }
             }
         }
 
@@ -22,7 +30,15 @@ pipeline {
 
         stage('Run Containers') {
             steps {
-                bat 'docker compose up -d'
+                withCredentials([
+                    string(credentialsId: 'SMTP_USERNAME', variable: 'SMTP_USERNAME'),
+                    string(credentialsId: 'SMTP_PASSWORD', variable: 'SMTP_PASSWORD'),
+                    string(credentialsId: 'SMTP_FROM', variable: 'SMTP_FROM')
+                ]) {
+                    bat '''
+                        docker compose up -d
+                    '''
+                }
             }
         }
     }
