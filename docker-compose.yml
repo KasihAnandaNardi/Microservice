@@ -115,20 +115,6 @@ services:
       eureka-server:
         condition: service_healthy
 
-  peminjamanqueryservice:
-    image: peminjamanqueryservice:0.1
-    ports:
-      - "9007:9007"
-    networks:
-      - library-network
-    environment:
-      - SPRING_APPLICATION_NAME=peminjamanqueryservice
-      - SERVER_PORT=9007
-      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    depends_on:
-      eureka-server:
-        condition: service_healthy
-
   api-gateway:
     image: apigateway:0.2
     ports:
