@@ -110,7 +110,7 @@ services:
       - SPRING_DATA_MONGODB_URI=mongodb://mongo-db:27017/peminjaman
       
       # H2 Console
-      - SPRING_H2_CONSOLE_ENABLED="true"
+      - SPRING_H2_CONSOLE_ENABLED=true
       - SPRING_H2_CONSOLE_PATH=/h2-console
       
       # JPA Configuration
