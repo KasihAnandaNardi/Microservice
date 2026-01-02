@@ -12,9 +12,26 @@ services:
       timeout: 10s
       retries: 5
 
-  mongo:
+  postgres-pustaka:
+    image: postgres:latest
+    container_name: postgres-pustaka
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_DB: peminjaman
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d peminjaman || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mongo-db:
     image: mongo:latest
-    container_name: mongo
+    container_name: mongo-db
     ports:
       - "27017"
     networks:
@@ -71,7 +88,7 @@ services:
         condition: service_healthy
 
   peminjamanservice:
-    image: peminjamanservice:0.1
+    image: peminjamanservice:0.2
     ports:
       - "9003:9003"
     networks:
