@@ -16,7 +16,7 @@ services:
     image: postgres:latest
     container_name: postgres-pustaka
     ports:
-      - "5432"
+      - "5432:5432"
     environment:
       POSTGRES_DB: peminjaman
       POSTGRES_USER: postgres
@@ -49,8 +49,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: password
     networks:
       - library-network
     healthcheck:
@@ -94,9 +94,31 @@ services:
     networks:
       - library-network
     environment:
-      - SPRING_APPLICATION_NAME=peminjamanservice
-      - SERVER_PORT=9003
-      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_RABBITMQ_HOST: rabbitmq-service
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: admin
+      SPRING_RABBITMQ_PASSWORD: password
+      
+      # H2 Database Configuration
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-pustaka:5432/peminjaman
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATA_MONGODB_URI: mongodb://mongo-db:27017/peminjaman
+      
+      # H2 Console
+      SPRING_H2_CONSOLE_ENABLED: "true"
+      SPRING_H2_CONSOLE_PATH: /h2-console
+      
+      # JPA Configuration
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+      SPRING_JPA_SHOW_SQL: "true"
+      
+      SERVER_PORT: 9003
+      LOGGING_FILE_NAME: /app/logs/peminjaman-service.lo
     depends_on:
       eureka-server:
         condition: service_healthy
