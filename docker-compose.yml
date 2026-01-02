@@ -116,8 +116,7 @@ services:
       # JPA Configuration
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-      - SPRING_JPA_SHOW_SQL="true"
-      
+      - SPRING_JPA_SHOW_SQL=true      
       - SERVER_PORT=9003
       - LOGGING_FILE_NAME=/app/logs/peminjaman-service.lo
     depends_on:
