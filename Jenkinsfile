@@ -10,19 +10,19 @@ pipeline {
 
         stage('Build Images') {
             steps {
-                sh 'docker compose build'
+                bat 'docker compose build'
             }
         }
 
         stage('Stop Old Containers') {
             steps {
-                sh 'docker compose down --remove-orphans'
+                bat 'docker compose down --remove-orphans'
             }
         }
 
         stage('Run Containers') {
             steps {
-                sh 'docker compose up -d'
+                bat 'docker compose up -d'
             }
         }
     }
