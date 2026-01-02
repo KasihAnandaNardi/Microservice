@@ -27,11 +27,11 @@ spring:
             uri: lb://PENGEMBALIANSERVICE
             predicates:
               - Path=api/pengembalian/**
-          # - id: peminjamanqueryservice
-          #   uri: lb://peminjamanqueryservice
-          #   predicates:
-          #     - Path=/api/peminjaman/**
-          #     - Method=GET
+          - id: PEMINJAMANQUERYSERVICE
+            uri: lb://PEMINJAMANQUERYSERVICE
+            predicates:
+              - Path=api/peminjaman/**
+              - Method=GET
 
 eureka:
   client:
