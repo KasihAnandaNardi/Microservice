@@ -22,16 +22,10 @@ spring:
             uri: lb://PEMINJAMANSERVICE
             predicates:
               - Path=api/peminjaman/**
-              - Method=POST,PUT,DELETE
           - id: PENGEMBALIANSERVICE
             uri: lb://PENGEMBALIANSERVICE
             predicates:
               - Path=api/pengembalian/**
-          - id: PEMINJAMANQUERYSERVICE
-            uri: lb://PEMINJAMANQUERYSERVICE
-            predicates:
-              - Path=api/peminjaman/**
-              - Method=GET
 
 eureka:
   client:

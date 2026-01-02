@@ -124,7 +124,7 @@ services:
         condition: service_healthy
 
   pengembalianservice:
-    image: pengembalianservice:0.1
+    image: pengembalianservice:0.2
     ports:
       - "9004:9004"
     networks:
