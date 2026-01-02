@@ -12,6 +12,36 @@ services:
       timeout: 10s
       retries: 5
 
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017"
+    networks:
+      - library-network
+    healthcheck:
+      test: test $$(echo "db.runCommand('ping').ok" | mongosh --port 27017 --quiet) -eq 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   anggotaservice:
     image: anggotaservice:0.1
     ports:
