@@ -10,23 +10,23 @@ spring:
     gateway:
       mvc:
         routes:
-          - id: anggotaservice
-            uri: lb://anggotaservice
+          - id: ANGGOTASERVICE
+            uri: lb://ANGGOTASERVICE
             predicates:
-              - Path=api/anggota
-          - id: bukuservice
-            uri: lb://bukuservice
+              - Path=api/anggota/**
+          - id: BUKUSERVICE
+            uri: lb://BUKUSERVICE
             predicates:
-              - Path=api/buku
-          - id: peminjamanservice
-            uri: lb://PEMINJAMAN-SERVICE
+              - Path=api/buku/**
+          - id: PEMINJAMANSERVICE
+            uri: lb://PEMINJAMANSERVICE
             predicates:
-              - Path=api/peminjaman
+              - Path=api/peminjaman/**
               - Method=POST,PUT,DELETE
-          - id: pengembalianservice
-            uri: lb://PENGEMBALIAN-SERVICE
+          - id: PENGEMBALIANSERVICE
+            uri: lb://PENGEMBALIANSERVICE
             predicates:
-              - Path=api/pengembalian
+              - Path=api/pengembalian/**
           # - id: peminjamanqueryservice
           #   uri: lb://peminjamanqueryservice
           #   predicates:
