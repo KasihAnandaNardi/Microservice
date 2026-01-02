@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: notifikasi-pustaka
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    template:
+      exchange: peminjaman.exchange
+    listener:
+      simple:
+        default-requeue-rejected: false
+
+app:
+  rabbitmq-peminjaman:
+    queue: peminjaman.queue.email
+    exchange: peminjaman.exchange
+    routing-key: peminjaman.routing.key.email
+  mail:
+    host: "smtp.gmail.com"
+    port: 587
+    username: ${SMTP_USERNAME}
+    from: ${SMTP_FROM}
+    password: ${SMTP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+logging:
+  level:
+    '[com.kasih.notifikasi-pustaka]': DEBUG
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+server:
+  port: 8090
