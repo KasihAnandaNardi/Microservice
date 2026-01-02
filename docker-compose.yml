@@ -69,7 +69,7 @@ services:
         condition: service_healthy
 
   api-gateway:
-    image: apigateway:0.1
+    image: apigateway:0.2
     ports:
       - "9006:9006"
     networks:

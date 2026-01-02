@@ -13,7 +13,7 @@ spring:
           - id: anggotaservice
             uri: lb://anggotaservice
             predicates:
-              - Path=api/anggota/
+              - Path=api/anggota
           - id: bukuservice
             uri: lb://bukuservice
             predicates:
