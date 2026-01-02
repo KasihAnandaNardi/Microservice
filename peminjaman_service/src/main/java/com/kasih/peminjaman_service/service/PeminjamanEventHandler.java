@@ -61,7 +61,7 @@ public class PeminjamanEventHandler {
                 .orElse(new PeminjamanQuery());
 
         ServiceInstance serviceInstance = discoveryClient
-                .getInstances("API-GATEWAY-PUSTAKA")
+                .getInstances("API-GATEWAY")
                 .stream()
                 .findFirst()
                 .orElseThrow();

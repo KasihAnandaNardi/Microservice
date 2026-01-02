@@ -68,7 +68,7 @@ public class PengembalianService {
             return null;
         }
 
-        ServiceInstance serviceInstance = discoveryClient.getInstances("API-GATEWAY-PUSTAKA").get(0);
+        ServiceInstance serviceInstance = discoveryClient.getInstances("API-GATEWAY").get(0);
 
         Peminjaman peminjaman = restTemplate.getForObject(
                 serviceInstance.getUri() + "/api/peminjaman/" + pengembalian.getPeminjamanId(), Peminjaman.class);
@@ -109,7 +109,7 @@ public class PengembalianService {
 
     public Peminjaman getPeminjaman(UUID id) {
         try {
-            ServiceInstance serviceInstance = discoveryClient.getInstances("API-GATEWAY-PUSTAKA").get(0);
+            ServiceInstance serviceInstance = discoveryClient.getInstances("API-GATEWAY").get(0);
             Peminjaman peminjaman = restTemplate.getForObject(serviceInstance.getUri() + "/api/peminjaman/" + id,
                     Peminjaman.class);
             return peminjaman;

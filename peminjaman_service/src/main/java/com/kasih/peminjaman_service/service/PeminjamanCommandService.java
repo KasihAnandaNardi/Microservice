@@ -35,7 +35,7 @@ public class PeminjamanCommandService {
     public PeminjamanCommand createPeminjaman(PeminjamanCommand peminjaman) {
 
         ServiceInstance serviceInstance = discoveryClient
-                .getInstances("API-GATEWAY-PUSTAKA")
+                .getInstances("API-GATEWAY")
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("API Gateway tidak tersedia"));
